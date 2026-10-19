@@ -52,6 +52,86 @@ Semua relasi **satu-ke-banyak** dengan arah filter satu arah (dimensi ke fakta).
 | `DimAccount` | Dimensi | Account, AccountGroup (Revenue, COGS, Operating Expense, Other Expense) |
 | `_KPI` | Tabel measure | Hanya wadah untuk 44 measure KPI turunan |
 
+## Isi Data
+
+Cuplikan data langsung dari model. Nilai uang dalam rupiah.
+
+### Sales (60 baris, contoh 4 baris)
+
+| OrderID | OrderDate | Dealer | Produk | Channel | Pembayaran | Pelanggan | Qty | UnitPrice | Discount | SalesAmount | COGS | Profit |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 2026-01-08 | Auto Prima Jakarta | Avanza | Online | Credit | Corporate | 2 | 235.000.000 | 7.050.000 | 455.900.000 | 399.500.000 | 56.400.000 |
+| 2 | 2026-02-15 | Toyota Sunter | Avanza | Event | Leasing | Individual | 3 | 255.000.000 | 10.200.000 | 734.400.000 | 650.250.000 | 84.150.000 |
+| 3 | 2026-03-22 | Honda Fatmawati | Fortuner | Showroom | Cash | Corporate | 4 | 565.000.000 | 28.250.000 | 2.147.000.000 | 1.921.000.000 | 226.000.000 |
+| 4 | 2026-04-02 | Auto Prima Bandung | Innova Zenix | Online | Credit | Individual | 1 | 435.000.000 | 26.100.000 | 408.900.000 | 369.750.000 | 39.150.000 |
+
+`Sales` juga menyimpan `Region`, `DealerType`, `Brand`, `Category`, `SubCategory`, `FuelType`, dan `Transmission` per order (kolom ini disembunyikan di model karena sudah ada di tabel dimensi).
+
+### Stock (840 baris, contoh 3 baris)
+
+| MonthStart | Dealer | Produk | OpeningStock | StockIn | StockOut | ClosingStock | MinStock |
+|---|---|---|---|---|---|---|---|
+| 2026-01-01 | Auto Prima Bandung | Avanza | 6 | 0 | 0 | 6 | 2 |
+| 2026-01-01 | Auto Prima Bandung | Xenia | 6 | 2 | 0 | 8 | 2 |
+| 2026-01-01 | Auto Prima Bandung | PCX160 | 12 | 0 | 0 | 12 | 4 |
+
+### Finance (480 baris, contoh 3 baris)
+
+| MonthStart | Dealer | AccountID | Actual | Budget |
+|---|---|---|---|---|
+| 2026-01-01 | Auto Prima Bandung | 6100 (Salaries & Wages) | 26.500.000 | 25.175.000 |
+| 2026-01-01 | Auto Prima Bandung | 6200 (Marketing & Promotion) | 12.720.000 | 12.084.000 |
+| 2026-01-01 | Auto Prima Bandung | 6300 (Rent & Utilities) | 10.000.000 | 9.500.000 |
+
+### DimDealer (10 dealer)
+
+| Dealer | Tipe | Wilayah |
+|---|---|---|
+| Auto Prima Jakarta | Main Dealer | Jakarta |
+| Toyota Sunter | Main Dealer | Jakarta |
+| Honda Fatmawati | Sub Dealer | Jakarta |
+| Auto Prima Bandung | Main Dealer | Bandung |
+| Daihatsu Soekarno Hatta | Sub Dealer | Bandung |
+| Auto Prima Surabaya | Main Dealer | Surabaya |
+| Mitsubishi Surabaya | Sub Dealer | Surabaya |
+| Auto Prima Medan | Main Dealer | Medan |
+| Auto Prima Makassar | Main Dealer | Makassar |
+| Auto Prima Denpasar | Main Dealer | Denpasar |
+
+### DimProduct (14 produk)
+
+| Produk | Merek | Kategori | Subkategori | Bahan bakar |
+|---|---|---|---|---|
+| Avanza | Toyota | Car | MPV | Gasoline |
+| Fortuner | Toyota | Car | SUV | Diesel |
+| Innova Zenix | Toyota | Car | MPV | Hybrid |
+| Brio | Honda | Car | Hatchback | Gasoline |
+| HR-V | Honda | Car | SUV | Gasoline |
+| CR-V | Honda | Car | SUV | Hybrid |
+| Xenia | Daihatsu | Car | MPV | Gasoline |
+| Terios | Daihatsu | Car | SUV | Gasoline |
+| Xpander | Mitsubishi | Car | MPV | Gasoline |
+| Pajero Sport | Mitsubishi | Car | SUV | Diesel |
+| Ertiga | Suzuki | Car | MPV | Gasoline |
+| PCX160 | Honda | Motorcycle | Scooter | Gasoline |
+| NMAX | Yamaha | Motorcycle | Scooter | Gasoline |
+| Vario 160 | Honda | Motorcycle | Scooter | Gasoline |
+
+### DimAccount (8 akun)
+
+| AccountID | Akun | Grup |
+|---|---|---|
+| 4000 | Sales Revenue | Revenue |
+| 5000 | Cost of Goods Sold | COGS |
+| 6100 | Salaries & Wages | Operating Expense |
+| 6200 | Marketing & Promotion | Operating Expense |
+| 6300 | Rent & Utilities | Operating Expense |
+| 6400 | Logistics & Delivery | Operating Expense |
+| 6500 | Depreciation | Operating Expense |
+| 7000 | Interest Expense | Other Expense |
+
+`DimDate` adalah kalender harian dari 1 Januari sampai 31 Desember 2026 dengan kolom Year, Quarter, Month, dan YearMonth.
+
 ## Penjelasan KPI
 
 Ada 75 measure di model ini. Nilai di bawah adalah total seluruh data tanpa filter.
